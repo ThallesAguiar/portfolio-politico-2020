@@ -1,32 +1,47 @@
 <template>
-  <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </div>
-    <router-view/>
-  </div>
+  <v-app id="inspire">
+    <v-main>
+      <Nav />
+      <v-fade-transition mode="out-in">
+        <router-view />
+      </v-fade-transition>
+    </v-main>
+  </v-app>
 </template>
 
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
+<script>
+import 'vue-lazy-youtube-video/dist/style.css'
+export default {
+  name: "App",
+  metaInfo: {
+    title: "18000",
+    titleTemplate: "%s | Thalles Aguiar",
+    htmlAttrs: { lang: "en" },
+    meta: [
+      { charset: "utf-8" },
+      { name: "viewport", content: "width=device-width, initial-scale=1" },
+    ],
+  },
+  components: {
+    Nav: () => import("./components/Nav.vue"),
+  },
 
-#nav {
-  padding: 30px;
-}
+  created(){
+    let path = localStorage.getItem('path');
+    if(path){
+      localStorage.removeItem('path');
+      this.$router.push(`/${path}`);
+    }
+  }
+};
+</script>
+<style lang="sass">
+.extra-padding
+  padding-bottom: 96px !important
+  padding-top: 96px !important
 
-#nav a {
-  font-weight: bold;
-  color: #2c3e50;
-}
-
-#nav a.router-link-exact-active {
-  color: #42b983;
-}
+  @media screen and (max-width: 959px)
+    padding-top: 48px !important
+    padding-bottom: 48px !important
 </style>
+
